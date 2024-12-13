@@ -2,7 +2,7 @@ import network
 import time
 
 SSID = 'Andre'         # Erstat med din WiFi's navn (SSID)
-PASSWORD = ''  # Erstat med din WiFi-adgangskode
+PASSWORD = 'Andre1234'  # Erstat med din WiFi-adgangskode
 
 wifi = network.WLAN(network.STA_IF)
 
