@@ -1,11 +1,20 @@
-from mpu6050 import MPU6050
+from machine import I2C
+from machine import Pin
 from time import sleep
-from machine import Pin, I2C
-
-i2c = I2C(0)
+from mpu6050 import MPU6050
+import sys
+#Initialisering af I2C objekt
+i2c = I2C(0)     
+#Initialisering af mpu6050 objekt
 imu = MPU6050(i2c)
-
 while True:
-    values = imu.get_values()
-    print(values["acceleration z"])
-    sleep(0.05) 
+    try:
+        # printer hele dictionary som returneres fra get_values metoden
+        #print(imu.get_values()) 
+        print(imu.get_values().get('acceleration x'))
+        print(imu.get_values().get('acceleration y'))
+        sleep(0.1)
+        
+    except KeyboardInterrupt:
+        print("Ctrl+C pressed - exiting program.")
+        sys.exit()
