@@ -1,10 +1,11 @@
-rom mpu6050 import MPU6050  # https://github.com/micropython-IMU/micropython-mpu9x50
+from mpu6050 import MPU6050  # https://github.com/micropython-IMU/micropython-mpu9x50
 from time import sleep
 from machine import Pin, I2C, ADC
 from dht import DHT11
 from gpio_lcd import GpioLcd
 from machine import UART
 from gps_simple import GPS_SIMPLE
+from uthingsboard.client import TBDeviceMqttClient
 
 gps_port = 2                                 # ESP32 UART port, Educaboard ESP32 default UART port
 gps_speed = 9600
@@ -12,6 +13,8 @@ gps_speed = 9600
 uart = UART(gps_port, gps_speed)             # UART object creation
 gps = GPS_SIMPLE(uart)
 
+client = TBDeviceMqttClient(secrets.SERVER_IP_ADDRESS, access_token = secrets.ACCESS_TOKEN)
+client.connect()  
 
 i2c = I2C(0)
 imu = MPU6050(i2c)
@@ -72,6 +75,8 @@ while True:
         lcd.move_to(11, 3)
         lcd.putstr(f"Ret:{gps.get_course():.1f}\n")
         
+    print(imu.get_values())#.get("temperature celsius"))
+    
     dht11.measure()
     temperature = dht11.temperature()
     lcd.clear()
@@ -99,8 +104,14 @@ while True:
     lcd.move_to(10, 0)
     lcd.putstr(f"Bat: {percent:.1f}%")
     
-    
-    
-    
+                                  # store telemetry in dictionary      
+    telemetry = {'latitude': lat_lon[0],
+                 'longitude': lat_lon[1],
+                 'Battery': percent,
+                 'speed': gps.get_speed(1),
+                 'retning': gps.get_course(),
+                 'temperatur':temperature}
+
+    client.send_telemetry(telemetry)
     
     
