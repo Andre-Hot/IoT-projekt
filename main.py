@@ -18,6 +18,9 @@ pin_led3 = 13
 gps_port = 2                                 # ESP32 UART port, Educaboard ESP32 default UART port
 gps_speed = 9600
 
+red_led = Pin(26, Pin.OUT)
+green_led = Pin(13, Pin.OUT)
+buzzer = PWM(Pin(14), freq=1000)
 uart = UART(gps_port, gps_speed)             # UART object creation
 gps = GPS_SIMPLE(uart)
 
@@ -128,7 +131,20 @@ while True:
     lcd.move_to(8, 0)
     lcd.putstr("C")
     
-     
+    distance = measure_distance()
+    print("Distance: ", distance, "Cm")
+    
+    if distance < 100 and distance >= 0:
+        red_led.value(1)
+        green_led.value(0)
+        buzzer.duty(512)
+    else:
+        red_led.value(0)
+        green_led.value(1)
+        buzzer.duty(0)
+        
+    time.sleep(0.1)
+    
     val = potmeter_adc.read()
     u_batt = batt_voltage(val)
     percent = batt_percentage(u_batt)
@@ -154,4 +170,5 @@ while True:
                  'temperatur':temperature}
 
     client.send_telemetry(telemetry)
+    
     
