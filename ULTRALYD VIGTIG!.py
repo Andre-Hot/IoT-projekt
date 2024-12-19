@@ -46,7 +46,7 @@ def main():
         distance = measure_distance()
         print('Distance:', distance, 'cm')
         
-        if distance < 100 and distance >= 0:
+        if distance < 300 and distance >= 0:
             red_led.value(1)
             green_led.value(0)
             buzzer.duty(512)  # Tænd buzzer
