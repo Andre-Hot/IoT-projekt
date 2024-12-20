@@ -114,7 +114,7 @@ while True:
         lcd.move_to(11, 3)
         lcd.putstr(f"Ret:{gps.get_course():.1f}\n")
     try:    
-        print(imu.get_values())#.get("temperature celsius"))
+        print(imu.get_values())#.get("bevægelse-hastighed"))
     except:
         print('error reading imu')
         
