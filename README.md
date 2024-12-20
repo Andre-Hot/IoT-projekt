@@ -16,12 +16,12 @@ git clone https://github.com/dit-brugernavn/smart-cykel-afstandssensor.git
 cd smart-cykel-afstandssensor
 
 Installer nødvendige afhængigheder:
-Sørg for at have Python installeret, og kør derefter:
+Sørg for at have Python 3.13.1 installeret, og kør derefter:
 
-pip install -r requirements.txt
+install Thonny, MQTT 
 
 Tilslut komponenterne til din mikrocontroller (følg skematisk diagram, som kan tilføjes her).
 
 Kør koden:
-
-python main.py
+boot.py
+main.py
