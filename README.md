@@ -1,5 +1,5 @@
 # IoT-projekt
-The Safe Way To Bike - IoT Semester projekt
+SmartCykel - IoT Semester projekt
 
 Projektbeskrivelse
 
@@ -18,10 +18,9 @@ cd smart-cykel-afstandssensor
 Installer nødvendige afhængigheder:
 Sørg for at have Python installeret, og kør derefter:
 
-pip install -r requirements.txt
 
 Tilslut komponenterne til din mikrocontroller (følg skematisk diagram, som kan tilføjes her).
 
 Kør koden:
 
-python main.py
+main.py
