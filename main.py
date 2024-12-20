@@ -114,10 +114,25 @@ while True:
         lcd.move_to(11, 3)
         lcd.putstr(f"Ret:{gps.get_course():.1f}\n")
     try:    
-        print(imu.get_values())#.get("temperature celsius"))
+        print(imu.get_values())#.get("hastighed"))
+        imu_data = imu.get_values()  
+        client.check_msg() 
     except:
         print('error reading imu')
-        
+        if imu_data.get("acceleration y") < 500 and imu_data.get("acceleration y") > -500 and check_movement:
+           
+            timer = ticks_ms()  
+            check_movement = False  
+        if imu_data.get("acceleration y") > 500 or imu_data.get("acceleration y") < -500 and not check_movement:
+           
+            check_movement = True
+            send_data = True  
+        if not check_movement and ticks_ms() - timer > 180000:
+           
+            send_data = False 
+            np_clear() 
+            lcd.clear()  
+    
     dht11.measure()
     temperature = dht11.temperature()
     lcd.clear()
