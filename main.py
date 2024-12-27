@@ -12,7 +12,6 @@ import secrets
 
 trigger = Pin(4, Pin.OUT)
 echo = Pin(5, Pin.IN)
-buzzer = PWM(14, Pin.OUT)
 pin_led1 = 26
 pin_led3 = 13
 gps_port = 2                                 # ESP32 UART port, Educaboard ESP32 default UART port
@@ -50,8 +49,13 @@ def measure_distance():
     time.sleep_us(10)
     trigger.off()
     
-    #Mål den tid det tager for echo pin at modtage signal
+    #Mål den tid tager det tager for echo pin at modtage signal
+    # tilføjet error handling hvis funktionen ikke modtager puls indenfor givne sec
+   try:
     duration = time_pulse_us(echo, 1, 30000)
+   except error:
+       print("TimeOut")
+       duration = 30000
     
     distance_cm = (duration * 0.0343) / 2
     return distance_cm
